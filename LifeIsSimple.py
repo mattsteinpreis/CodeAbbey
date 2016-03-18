@@ -7,6 +7,8 @@ class Life(object):
         self.ny = 0
         self.organisms = []
         self.organism_count = 0
+        self.last_generation = 0
+        self.same_count = 0
 
     def _print(self):
         if self.grid == {}:
@@ -56,6 +58,7 @@ class Life(object):
             self.grid[death] = '-'
         for birth in births:
             self.grid[birth] = 'X'
+        self.last_generation = self.organism_count
         self.organism_count -= len(deaths)
         self.organism_count += len(births)
 
@@ -63,6 +66,10 @@ class Life(object):
         self.evolve()
         if printing:
             self._print()
+        if self.organism_count == self.last_generation:
+            self.same_count += 1
+        else:
+            self.same_count = 0
 
     def full_evolve(self, n, show_n_org = True):
         for i in range(n):
