@@ -32,4 +32,3 @@ for case in range(n_cases):
     angle2 = float(inp[2])
     h = calculate_height(d1, angle1, angle2, to_radian=True)
     print int(round(h)),
-    
