@@ -46,6 +46,7 @@ def test():
     b1 = b.to_string()
     b.move('L')
     b2 = b.to_string()
+    return None
 
 
 def CodeAbbey():
