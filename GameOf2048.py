@@ -32,9 +32,9 @@ class Board(object):
         if d == 'L':
             t = s[3::-1]+s[7:3:-1]+s[11:7:-1]+s[15:11:-1]
         elif d == 'U':
-            pass
+            t = s[12::-4] + s[13::-4] + s[14::-4] + s[15::-4]
         elif d == 'D':
-            pass
+            t = s[3::4] + s[2::4] + s[1::4] + s[::4]
         else:
             t = s
         self.fill(t)
@@ -74,9 +74,13 @@ def test():
     b = Board()
     b.fill(start)
     b.show()
-    b.move('R')
+    b.move('U')
     b.show()
     b.move('L')
+    b.show()
+    b.move('D')
+    b.show()
+    b.move('R')
     b.show()
     return None
 
