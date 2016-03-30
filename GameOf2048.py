@@ -25,27 +25,59 @@ class Board(object):
     def show(self):
         for row in self.tiles:
             print ' '.join(row)
+        print
 
     def rotate(self, d):
         s = self.to_string()
         if d == 'L':
             t = s[3::-1]+s[7:3:-1]+s[11:7:-1]+s[15:11:-1]
+        elif d == 'U':
+            pass
+        elif d == 'D':
+            pass
+        else:
+            t = s
         self.fill(t)
 
     def move(self, d):
         self.rotate(d)
-        #self.condense()
+        self.condense()
         self.rotate(self.move_inv[d])
+
+    def condense(self):
+        # everything goes to the right
+        nt = []
+        for row in self.tiles:
+            row_i = row
+            # move all dashes to the left
+            row_i, n_num = shift_dashes(row_i)
+            marker = 3
+            while marker > (4 - n_num):
+                a, b = row_i[marker-1], row_i[marker]
+                if a == b:
+                    row_i[marker] = str(int(a) + int(b))
+                    row_i[marker - 1] = '-'
+                    row_i, n_num = shift_dashes(row_i)
+                marker -= 1
+            nt.append(row_i)
+        self.tiles = nt
+
+
+def shift_dashes(r):
+    d = [ri for ri in r if ri == '-']
+    nd = [ri for ri in r if ri != '-']
+    return d + nd, len(nd)
 
 
 def test():
-    start = '2222424422244442'
+    start = '------------2222'
     b = Board()
     b.fill(start)
     b.show()
-    b1 = b.to_string()
+    b.move('R')
+    b.show()
     b.move('L')
-    b2 = b.to_string()
+    b.show()
     return None
 
 
