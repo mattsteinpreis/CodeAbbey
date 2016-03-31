@@ -5,8 +5,15 @@ Code for CodeAbbey #91: Game of 2048
 
 The problem gives a board set-up and a list of moves,
 and asks for the number of each 2, 4, etc.
-"""
 
+TO-DO:
+- map directional inputs to letters
+
+BUGS:
+- string functionality fails for double-digits; switch to lists
+
+"""
+import string
 
 class Board(object):
     def __init__(self):
@@ -69,8 +76,20 @@ def shift_dashes(r):
     return d + nd, len(nd)
 
 
+def interactive():
+    start = '2422442242422222'
+    b = Board()
+    b.fill(start)
+    b.show()
+    while True:
+        m = raw_input()
+        if m == 'q':
+            return
+        b.move(m.upper())
+        b.show()
+
 def test():
-    start = '------------2222'
+    start = '2422442242422222'
     b = Board()
     b.fill(start)
     b.show()
@@ -90,4 +109,4 @@ def CodeAbbey():
 
 
 if __name__ == '__main__':
-    test()
+    interactive()
