@@ -13,12 +13,12 @@ TO-DO:
 BUGS:
 
 """
-import string
+
 
 class Board(object):
     def __init__(self):
         self.tiles = []
-        self.move_inv = {'R':'R', 'L':'L', 'U':'D', 'D':'U'}
+        self.move_inv = {'R': 'R', 'L': 'L', 'U': 'D', 'D': 'U'}
 
     def fill(self, l):
         m = []
@@ -64,8 +64,17 @@ class Board(object):
                     row_i, n_num = shift_dashes(row_i)
                 marker -= 1
             nt.extend(row_i)
-            print nt
         self.tiles = nt
+
+    def counts(self):
+        nums = [int(ch) for ch in self.tiles if ch != '-']
+        mx = max(nums)
+        n = 2
+        c = []
+        while n < (mx+1):
+            c.append(self.tiles.count(str(n)))
+            n *= 2
+        return c
 
 
 def shift_dashes(r):
@@ -86,6 +95,7 @@ def interactive():
         b.move(m.upper())
         b.show()
 
+
 def test():
     start = '2422442242422222'
     b = Board()
@@ -99,12 +109,22 @@ def test():
     b.show()
     b.move('R')
     b.show()
+    print b.counts()
     return None
 
 
 def CodeAbbey():
-    pass
-
+    board = []
+    for i in range(4):
+        board.extend(raw_input().split())
+    b = Board()
+    b.fill(board)
+    moves = raw_input().split()
+    for m in moves:
+        b.move(m)
+    nc = b.counts()
+    for ni in nc:
+        print ni,
 
 if __name__ == '__main__':
-    test()
+    CodeAbbey()
