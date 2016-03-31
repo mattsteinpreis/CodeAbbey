@@ -7,35 +7,32 @@ The problem gives a board set-up and a list of moves,
 and asks for the number of each 2, 4, etc.
 
 TO-DO:
+- format so multiple digits look better
 - map directional inputs to letters
 
 BUGS:
-- string functionality fails for double-digits; switch to lists
 
 """
 import string
 
 class Board(object):
     def __init__(self):
-        self.tiles = None
+        self.tiles = []
         self.move_inv = {'R':'R', 'L':'L', 'U':'D', 'D':'U'}
 
-    def to_string(self):
-        return ''.join([ch for row in self.tiles for ch in row])
-
-    def fill(self, s):
+    def fill(self, l):
         m = []
         for i in range(4):
-            m.append([ch for ch in s[i*4:((i+1)*4)]])
+            m.extend([ch for ch in l[i*4:((i+1)*4)]])
         self.tiles = m
 
     def show(self):
-        for row in self.tiles:
-            print ' '.join(row)
+        for i in range(4):
+            print ' '.join(self.tiles[i*4:((i+1)*4)])
         print
 
     def rotate(self, d):
-        s = self.to_string()
+        s = self.tiles
         if d == 'L':
             t = s[3::-1]+s[7:3:-1]+s[11:7:-1]+s[15:11:-1]
         elif d == 'U':
@@ -44,7 +41,7 @@ class Board(object):
             t = s[3::4] + s[2::4] + s[1::4] + s[::4]
         else:
             t = s
-        self.fill(t)
+        self.tiles = t
 
     def move(self, d):
         self.rotate(d)
@@ -54,8 +51,8 @@ class Board(object):
     def condense(self):
         # everything goes to the right
         nt = []
-        for row in self.tiles:
-            row_i = row
+        for i in range(4):
+            row_i = self.tiles[i*4:((i+1)*4)]
             # move all dashes to the left
             row_i, n_num = shift_dashes(row_i)
             marker = 3
@@ -66,7 +63,8 @@ class Board(object):
                     row_i[marker - 1] = '-'
                     row_i, n_num = shift_dashes(row_i)
                 marker -= 1
-            nt.append(row_i)
+            nt.extend(row_i)
+            print nt
         self.tiles = nt
 
 
@@ -109,4 +107,4 @@ def CodeAbbey():
 
 
 if __name__ == '__main__':
-    interactive()
+    test()
