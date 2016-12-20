@@ -55,4 +55,4 @@ def RunCodeAbbey():
 
 
 if __name__ == "__main__":
-    print frequency('A4')
+    print frequency('A0')

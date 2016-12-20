@@ -9,6 +9,7 @@ class Life(object):
         self.organism_count = 0
         self.last_generation = 0
         self.same_count = 0
+        self.generation = 0
 
     def _print(self):
         if self.grid == {}:
@@ -61,6 +62,7 @@ class Life(object):
         self.last_generation = self.organism_count
         self.organism_count -= len(deaths)
         self.organism_count += len(births)
+        self.generation += 1
 
     def step(self, printing = False):
         self.evolve()
@@ -76,6 +78,8 @@ class Life(object):
             self.step()
             if show_n_org:
                 print self.organism_count,
+            if self.same_count == 5:
+                return self.generation - 5
 
 
 ### testing
